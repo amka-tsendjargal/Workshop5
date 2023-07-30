@@ -1,0 +1,48 @@
+﻿@model List<TravelExpertsMVC.Models.ContactViewModel>
+@{
+    ViewData["Title"] = "Contact Us";
+}
+<div class="container mt-5">
+    <h1 class="text-center">Contact Us</h1>
+    <div class="row">
+        @foreach (var agency in Model)
+        {
+            <div class="col-md-12 mb-4">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h2>Agency @agency.AgencyId</h2>
+                        <p>@agency.AgncyAddress, @agency.AgncyCity, @agency.AgncyProv, @agency.AgncyCountry, @agency.AgncyPostal</p>
+                        <p>Phone: @agency.AgncyPhone</p>
+                        <p>Fax: @agency.AgncyFax</p>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Agent Name</th>                                    
+                                    <th>Email</th>
+                                    <th>Position</th>
+                                    <th>Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var agent in agency.Agents)
+                                {
+                                    <tr class="@(agency.Agents.IndexOf(agent) % 2 == 0 ? "table-secondary" : "")">
+                                        <td>@agent.AgentId</td>                                        
+                                        <td>@($"{agent.AgtFirstName} {agent.AgtMiddleInitial} {agent.AgtLastName}")</td>                                      
+                                        <td>@agent.AgtEmail</td>
+                                        <td>@agent.AgtPosition</td>
+                                        <td>@agent.AgtBusPhone</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
