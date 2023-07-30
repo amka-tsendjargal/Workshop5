@@ -36,6 +36,16 @@ namespace TravelExpertsMVC.Controllers
         {
             return View();
         }
+
+        public IActionResult Login(string returnUrl)
+        {
+            if (returnUrl != null)
+            {
+                TempData["ReturnUrl"] = returnUrl;
+            }
+            return View();
+        }
+
         // GET: CustomerController/Details/5
         public ActionResult Details(int id)
         {
