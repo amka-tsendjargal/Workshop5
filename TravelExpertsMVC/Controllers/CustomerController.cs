@@ -29,10 +29,7 @@ namespace TravelExpertsMVC.Controllers
             {
                 
                 return View(customer);
-            }
-
-          
-
+            }          
             return RedirectToAction("RegistrationSuccessful");
         }
 
