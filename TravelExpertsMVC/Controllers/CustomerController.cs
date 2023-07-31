@@ -38,6 +38,38 @@ namespace TravelExpertsMVC.Controllers
             return View();
         }
 
+        public IActionResult MyAccount()
+        {
+            int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
+            Customer currentCustomer = CustomerModel.GetCustomerById(_context, sessionCustId);
+            return View(currentCustomer);
+        }
+
+        [HttpPost]
+        public IActionResult MyAccount(Customer updatedCustomer)
+        {
+            int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    CustomerModel.UpdateCustomer(_context, sessionCustId, updatedCustomer);
+                    TempData["Message"] = "Personal information successfully updated.";
+                    return View();
+                }
+                catch
+                {
+                    TempData["Message"] = "Something went wrong while updating information. Please try again.";
+                    TempData["IsError"] = true;
+                    return View(updatedCustomer);
+                }
+            }
+            else
+            {
+                return View(updatedCustomer);
+            }
+        }
+
         public IActionResult Login(string returnUrl)
         {
             if (returnUrl != null)
