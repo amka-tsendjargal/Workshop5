@@ -1,9 +1,14 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using TravelExpertsData;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAuthentication(
+    CookieAuthenticationDefaults.AuthenticationScheme).
+    AddCookie(opt => opt.LoginPath = "/Customer/Login"); // Account controller, Login method
+builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<TravelExpertsContext>(
@@ -20,6 +25,10 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
+
+app.UseSession();
 
 app.UseAuthorization();
 
