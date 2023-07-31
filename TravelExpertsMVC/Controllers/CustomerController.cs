@@ -23,11 +23,11 @@ namespace TravelExpertsMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                // If the model is not valid, re-display the form with validation errors
+                
                 return View(customer);
             }
 
-            // Save the customer record to the database (you can implement this logic)
+          
 
             return RedirectToAction("RegistrationSuccessful");
         }
