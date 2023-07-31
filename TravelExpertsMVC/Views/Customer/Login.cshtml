@@ -1,5 +1,28 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model TravelExpertsData.Customer
+
 @{
+    ViewData["Title"] = "Login";
 }
+
+<form asp-action="Login" method="post">
+    <h3 class="mb-2">Login</h3>
+    <table>
+        <tr class="mb-2">
+            <td>Username: </td>
+            <td>
+                <input type="text" asp-for="UserId" />
+            </td>
+        </tr>
+        <tr class="mb-2">
+            <td>Password: </td>
+            <td>
+                <input type="text" asp-for="UserPwd" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Login" class="btn btn-outline-primary" />
+            </td>
+        </tr>
+    </table>
+</form>

@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TravelExpertsData;
+using TravelExpertsMVC.Models;
 
 namespace TravelExpertsMVC.Controllers
 {
@@ -44,6 +48,42 @@ namespace TravelExpertsMVC.Controllers
                 TempData["ReturnUrl"] = returnUrl;
             }
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LoginAsync(Customer customer)
+        {
+            Customer cust = CustomerModel.Authenticate(_context, customer.UserId, customer.UserPwd);
+            if (cust == null) // if authentication fails
+            {
+                return View(); // stay on login page
+            }
+            HttpContext.Session.SetInt32("CurrentCustomer", cust.CustomerId); // create session for logged in customer
+            List<Claim> claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, cust.UserId)
+            };
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
+                CookieAuthenticationDefaults.AuthenticationScheme); // cookies authentication
+            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+
+            if (TempData["ReturnUrl"] == null || String.IsNullOrEmpty(TempData["ReturnUrl"].ToString()))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return Redirect(TempData["ReturnUrl"].ToString());
+            }
+        }
+
+        public async Task<IActionResult> LogoutAsync()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove("CurrentCustomer");
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: CustomerController/Details/5
