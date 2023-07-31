@@ -20,3 +20,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+h1 {
+    padding: 2rem 0;
+    font-size: 3rem;
+}
