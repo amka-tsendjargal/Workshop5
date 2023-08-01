@@ -17,31 +17,12 @@ namespace TravelExpertsMVC.Controllers
             _context = context;
         }
         // GET: CustomerController
-        public ActionResult Register()
-        {
-            return View(new Customer());
-        }
-
-        [HttpPost]
-        public IActionResult Register(Customer customer)
-        {
-            if (!ModelState.IsValid)
-            {
-                
-                return View(customer);
-            }          
-            return RedirectToAction("RegistrationSuccessful");
-        }
-
-        public IActionResult RegistrationSuccessful()
-        {
-            return View();
-        }
+        
 
         public IActionResult MyAccount()
         {
             int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
-            Customer currentCustomer = CustomerModel.GetCustomerById(_context, sessionCustId);
+            Customer currentCustomer = CustomerViewModel.GetCustomerById(_context, sessionCustId);
             return View(currentCustomer);
         }
 
@@ -53,7 +34,7 @@ namespace TravelExpertsMVC.Controllers
             {
                 try
                 {
-                    CustomerModel.UpdateCustomer(_context, sessionCustId, updatedCustomer);
+                    CustomerViewModel.UpdateCustomer(_context, sessionCustId, updatedCustomer);
                     TempData["Message"] = "Personal information successfully updated.";
                     return View();
                 }
@@ -82,7 +63,7 @@ namespace TravelExpertsMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginAsync(Customer customer)
         {
-            Customer cust = CustomerModel.Authenticate(_context, customer.UserId, customer.UserPwd);
+            Customer cust = CustomerViewModel.Authenticate(_context, customer.UserId, customer.UserPwd);
             if (cust == null) // if authentication fails
             {
                 return View(); // stay on login page
@@ -115,31 +96,139 @@ namespace TravelExpertsMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: CustomerController/Details/5
-        public ActionResult Details(int id)
+        //// GET: CustomerController/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
+
+        // GET: CustomerController/Register
+        public ActionResult Register()
         {
-            return View();
+            return View("Register", new Customer());
         }
 
-        // GET: CustomerController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: CustomerController/Create
+        // POST: CustomerController/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Register(Customer customer, string confirmPassword)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    // Check if the passwords match
+                    if (customer.UserPwd != confirmPassword)
+                    {
+                        ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
+                        return View("Register", customer);
+                    }
+
+                    // Call the Add method from the CustomerViewModel class to add the customer to the database
+                    CustomerViewModel.Add(_context, customer);
+
+                    // Redirect to a success page after successful registration
+                    return RedirectToAction("RegistrationSuccessful");
+                }
+                else
+                {
+                    // Use the "Register" view to display validation errors and re-render the form
+                    return View("Register", customer);
+                }
             }
             catch
             {
-                return View();
+                // Handle any exceptions that occurred during registration
+                TempData["Message"] = "Something went wrong while registering. Please try again.";
+                TempData["IsError"] = true;
+                return View("Register", customer);
             }
+        }        
+        
+        [HttpGet]
+        public IActionResult GetStatesProvinces(string country)
+        {
+            if (country == "Canada")
+            {
+                var provinces = new List<string> {  
+                    "Alberta",
+                    "British Columbia",
+                    "Manitoba",
+                    "New Brunswick",
+                    "Newfoundland and Labrador",
+                    "Nova Scotia",
+                    "Ontario",
+                    "Prince Edward Island",
+                    "Quebec",
+                    "Saskatchewan" };
+                return Json(provinces);
+            }
+            else if (country == "USA")
+            {
+                var states = new List<string> {
+                    "Alabama",
+                    "Alaska",
+                    "Arizona",
+                    "Arkansas",
+                    "California",
+                    "Colorado",
+                    "Connecticut",
+                    "Delaware",
+                    "Florida",
+                    "Georgia",
+                    "Hawaii",
+                    "Idaho",
+                    "Illinois",
+                    "Indiana",
+                    "Iowa",
+                    "Kansas",
+                    "Kentucky",
+                    "Louisiana",
+                    "Maine",
+                    "Maryland",
+                    "Massachusetts",
+                    "Michigan",
+                    "Minnesota",
+                    "Mississippi",
+                    "Missouri",
+                    "Montana",
+                    "Nebraska",
+                    "Nevada",
+                    "New Hampshire",
+                    "New Jersey",
+                    "New Mexico",
+                    "New York",
+                    "North Carolina",
+                    "North Dakota",
+                    "Ohio",
+                    "Oklahoma",
+                    "Oregon",
+                    "Pennsylvania",
+                    "Rhode Island",
+                    "South Carolina",
+                    "South Dakota",
+                    "Tennessee",
+                    "Texas",
+                    "Utah",
+                    "Vermont",
+                    "Virginia",
+                    "Washington",
+                    "West Virginia",
+                    "Wisconsin",
+                    "Wyoming" };
+                return Json(states);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        
+
+        // GET: /CutomerController/RegistrationSuccessful
+        public IActionResult RegistrationSuccessful()
+        {
+            return View();
         }
 
         // GET: CustomerController/Edit/5

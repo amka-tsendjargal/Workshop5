@@ -43,22 +43,24 @@ public partial class Customer
     [Display(Name = "Postal Code")]
     public string CustPostal { get; set; } = null!;
 
+    [Required(ErrorMessage = "Country is required.")]
     [StringLength(25)]
     [Display(Name = "Country")]
     public string? CustCountry { get; set; }
 
+    [Required(ErrorMessage = "Home Phone is required.")]
     [Phone(ErrorMessage = "Invalid Home Phone format.")]
     [StringLength(20)]
     [Display(Name = "Phone Number")]
     public string? CustHomePhone { get; set; }
 
-    [Required(ErrorMessage = "Business Phone is required.")]
+    
     [Phone(ErrorMessage = "Invalid Business Phone format.")]
     [StringLength(20)]
     [Display(Name = "Business Phone Number")]
     public string CustBusPhone { get; set; } = null!;
 
-    [Required(ErrorMessage = "Email is required.")]
+    
     [EmailAddress(ErrorMessage = "Invalid Email format.")]
     [StringLength(50)]
     [Display(Name = "Email")]
@@ -67,11 +69,13 @@ public partial class Customer
     [Display(Name = "Agent ID")]
     public int? AgentId { get; set; }
 
+    [Required(ErrorMessage = "Username is required.")]
     [StringLength(100)]
     [Unicode(false)]
     [Display(Name = "Username")]
     public string? UserId { get; set; }
 
+    [Required(ErrorMessage = "Password is required.")]
     [StringLength(100)]
     [Unicode(false)]
     [Display(Name = "Password")]

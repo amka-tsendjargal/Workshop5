@@ -3,7 +3,7 @@
     ViewData["Title"] = "Register";
 }
 <h1 class="text-center">Customer Registration</h1>
-<form method="post" class="container mt-4">
+<form method="post" asp-controller="Customer" asp-action="Register" class="container mt-4">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -39,25 +39,30 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
+                <label class="form-label mt-4" asp-for="CustCountry">Country:</label>
+                <select asp-for="CustCountry" class="form-control" id="CustCountry" name="CustCountry" value="@Model.CustCountry">
+                    <option value="Canada">Canada</option>
+                    <option value="USA">USA</option>
+                </select>
+                <span asp-validation-for="CustCountry" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
                 <label class="form-label mt-4" asp-for="CustProv">Province:</label>
-                <input type="text" class="form-control" id="CustProv" name="CustProv" value="@Model.CustProv">
+                <select asp-for="CustProv" class="form-control" id="CustProv" name="CustProv" value="@Model.CustProv">
+                </select>
                 <span asp-validation-for="CustProv" class="text-danger"></span>
             </div>
         </div>
+        
+    </div>
+    <div class="row">
         <div class="col-md-6">
             <div class="form-group">
                 <label class="form-label mt-4" asp-for="CustPostal">Postal Code:</label>
                 <input type="text" class="form-control" id="CustPostal" name="CustPostal" value="@Model.CustPostal">
                 <span asp-validation-for="CustPostal" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="CustCountry">Country:</label>
-                <input type="text" class="form-control" id="CustCountry" name="CustCountry" value="@Model.CustCountry">
-                <span asp-validation-for="CustCountry" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
@@ -99,9 +104,49 @@
                 <span asp-validation-for="UserPwd" class="text-danger"></span>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="form-label mt-4">Confirm Password:</label>
+                <input type="text" class="form-control" id="ConfirmPassword" name="ConfirmPassword" value="">
+                <span asp-validation-for="UserPwd" class="text-danger"></span>
+            </div>
+        </div>
     </div>
+       
 
     <div class="text-center mt-4">
         <button type="submit" class="btn btn-primary">Register</button>
     </div>
 </form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Handle the change event of the Country dropdown
+        $("#CustCountry").change(function () {
+            var selectedCountry = $(this).val();
+            updateStatesProvinces(selectedCountry);
+        });
+    });
+
+    function updateStatesProvinces(selectedCountry) {
+        // Make an AJAX request to the controller action to get states/provinces
+        $.ajax({
+            url: "/Customer/GetStatesProvinces",
+            type: "GET",
+            data: { country: selectedCountry },
+            success: function (data) {
+                // Clear existing options in the State/Province dropdown
+                $("#CustProv").empty();
+
+                // Add new options based on the received data
+                $.each(data, function (index, value) {
+                    $("#CustProv").append('<option value="' + value + '">' + value + '</option>');
+                });
+            },
+            error: function () {
+                alert("Failed to get states/provinces.");
+            }
+        });
+    }
+
+</script>
