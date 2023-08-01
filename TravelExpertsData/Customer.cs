@@ -69,13 +69,13 @@ public partial class Customer
     [Display(Name = "Agent ID")]
     public int? AgentId { get; set; }
 
-    [Required(ErrorMessage = "Username is required.")]
+    //[Required(ErrorMessage = "Username is required.")]
     [StringLength(100)]
     [Unicode(false)]
     [Display(Name = "Username")]
     public string? UserId { get; set; }
 
-    [Required(ErrorMessage = "Password is required.")]
+    //[Required(ErrorMessage = "Password is required.")]
     [StringLength(100)]
     [Unicode(false)]
     [Display(Name = "Password")]

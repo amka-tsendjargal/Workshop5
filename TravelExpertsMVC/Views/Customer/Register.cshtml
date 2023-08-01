@@ -104,14 +104,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label mt-4" asp-for="UserId">Username:</label>
-                            <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId">
+                            <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId" required>
                             <span asp-validation-for="UserId" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label mt-4" asp-for="UserPwd">Password:</label>
-                            <input type="text" class="form-control" id="UserPwd" name="UserPwd" value="@Model.UserPwd">
+                            <input type="text" class="form-control" id="UserPwd" name="UserPwd" value="@Model.UserPwd" required>
                             <span asp-validation-for="UserPwd" class="text-danger"></span>
                         </div>
                     </div>
