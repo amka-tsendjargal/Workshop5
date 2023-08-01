@@ -2,151 +2,133 @@
 @{
     ViewData["Title"] = "Register";
 }
-<h1 class="text-center">Customer Registration</h1>
-<form method="post" asp-controller="Customer" asp-action="Register" class="container mt-4">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="CustFirstName">First Name:</label>
-                <input type="text" class="form-control" id="CustFirstName" name="CustFirstName" value="@Model.CustFirstName">
-                <span asp-validation-for="CustFirstName" class="text-danger"></span>
+
+<h1 class="text-center text-primary-emphasis">Customer Registration</h1>
+<div class="container mt-4">
+    <div class="registration-card">
+        <div class="registration-image">
+            <div class="registration-image-text">
+                <h3>Explore the World</h3>
+                <p>Discover new adventures and create memories that last a lifetime.</p>
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="CustLastName">Last Name:</label>
-                <input type="text" class="form-control" id="CustLastName" name="CustLastName" value="@Model.CustLastName">
-                <span asp-validation-for="CustLastName" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4"  asp-for="CustAddress">Address:</label>
-                <input type="text" class="form-control" id="CustAddress" name="CustAddress" value="@Model.CustAddress">
-                <span asp-validation-for="CustAddress" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class ="form-label mt-4" asp-for="CustCity">City:</label>
-                <input type="text" class="form-control" id="CustCity" name="CustCity" value="@Model.CustCity">
-                <span asp-validation-for="CustCity" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="CustCountry">Country:</label>
-                <select asp-for="CustCountry" class="form-control" id="CustCountry" name="CustCountry" value="@Model.CustCountry">
-                    <option value="Canada">Canada</option>
-                    <option value="USA">USA</option>
-                </select>
-                <span asp-validation-for="CustCountry" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="CustProv">Province:</label>
-                <select asp-for="CustProv" class="form-control" id="CustProv" name="CustProv" value="@Model.CustProv">
-                </select>
-                <span asp-validation-for="CustProv" class="text-danger"></span>
-            </div>
-        </div>
-        
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="CustPostal">Postal Code:</label>
-                <input type="text" class="form-control" id="CustPostal" name="CustPostal" value="@Model.CustPostal">
-                <span asp-validation-for="CustPostal" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="CustHomePhone">Home Phone:</label>
-                <input type="text" class="form-control" id="CustHomePhone" name="CustHomePhone" value="@Model.CustHomePhone">
-                <span asp-validation-for="CustHomePhone" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="CustBusPhone">Business Phone:</label>
-                <input type="text" class="form-control" id="CustBusPhone" name="CustBusPhone" value="@Model.CustBusPhone">
-                <span asp-validation-for="CustBusPhone" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="CustEmail">Email:</label>
-                <input type="text" class="form-control" id="CustEmail" name="CustEmail" value="@Model.CustEmail">
-                <span asp-validation-for="CustEmail" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="UserId">Username:</label>
-                <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId">
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4" asp-for="UserPwd">Password:</label>
-                <input type="text" class="form-control" id="UserPwd" name="UserPwd" value="@Model.UserPwd">
-                <span asp-validation-for="UserPwd" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="form-label mt-4">Confirm Password:</label>
-                <input type="text" class="form-control" id="ConfirmPassword" name="ConfirmPassword" value="">
-                <span asp-validation-for="UserPwd" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
+        </div>    
+        <div class="registration-form">
+            <form method="post" asp-controller="Customer" asp-action="Register" class="container mt-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="CustFirstName">First Name:</label>
+                            <input type="text" class="form-control" id="CustFirstName" name="CustFirstName" value="@Model.CustFirstName">
+                            <span asp-validation-for="CustFirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="CustLastName">Last Name:</label>
+                            <input type="text" class="form-control" id="CustLastName" name="CustLastName" value="@Model.CustLastName">
+                            <span asp-validation-for="CustLastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4"  asp-for="CustAddress">Address:</label>
+                            <input type="text" class="form-control" id="CustAddress" name="CustAddress" value="@Model.CustAddress">
+                            <span asp-validation-for="CustAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class ="form-label mt-4" asp-for="CustCity">City:</label>
+                            <input type="text" class="form-control" id="CustCity" name="CustCity" value="@Model.CustCity">
+                            <span asp-validation-for="CustCity" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="CustPostal">Postal Code:</label>
+                            <input type="text" class="form-control" id="CustPostal" name="CustPostal" value="@Model.CustPostal">
+                            <span asp-validation-for="CustPostal" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="CustCountry">Country:</label>
+                            <select asp-for="CustCountry" class="form-control" id="CustCountry" name="CustCountry" value="@Model.CustCountry">
+                                <option value="">Select Country</option>
+                                <option value="Canada">Canada</option>
+                                <option value="USA">USA</option>
+                            </select>
+                            <span asp-validation-for="CustCountry" class="text-danger"></span>
+                        </div>
+                    </div>               
+                </div>
+                <div class="row">
        
-
-    <div class="text-center mt-4">
-        <button type="submit" class="btn btn-primary">Register</button>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="CustProv">Province:</label>
+                            <select asp-for="CustProv" class="form-control" id="CustProv" name="CustProv" value="@Model.CustProv">
+                            </select>
+                            <span asp-validation-for="CustProv" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="CustHomePhone">Home Phone:</label>
+                            <input type="text" class="form-control" id="CustHomePhone" name="CustHomePhone" value="@Model.CustHomePhone">
+                            <span asp-validation-for="CustHomePhone" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="CustBusPhone">Business Phone:</label>
+                            <input type="text" class="form-control" id="CustBusPhone" name="CustBusPhone" value="@Model.CustBusPhone">
+                            <span asp-validation-for="CustBusPhone" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="CustEmail">Email:</label>
+                            <input type="text" class="form-control" id="CustEmail" name="CustEmail" value="@Model.CustEmail">
+                            <span asp-validation-for="CustEmail" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="UserId">Username:</label>
+                            <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId">
+                            <span asp-validation-for="UserId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="UserPwd">Password:</label>
+                            <input type="text" class="form-control" id="UserPwd" name="UserPwd" value="@Model.UserPwd">
+                            <span asp-validation-for="UserPwd" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4">Confirm Password:</label>
+                            <input type="text" class="form-control" id="ConfirmPassword" name="ConfirmPassword" value="">
+                            <span asp-validation-for="UserPwd" class="text-danger"></span>
+                            <!-- Display the error message for password confirmation -->
+                            <div class="text-danger" id="passwordMismatchError"></div>
+                        </div>
+                    </div>
+                </div>       
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        // Handle the change event of the Country dropdown
-        $("#CustCountry").change(function () {
-            var selectedCountry = $(this).val();
-            updateStatesProvinces(selectedCountry);
-        });
-    });
-
-    function updateStatesProvinces(selectedCountry) {
-        // Make an AJAX request to the controller action to get states/provinces
-        $.ajax({
-            url: "/Customer/GetStatesProvinces",
-            type: "GET",
-            data: { country: selectedCountry },
-            success: function (data) {
-                // Clear existing options in the State/Province dropdown
-                $("#CustProv").empty();
-
-                // Add new options based on the received data
-                $.each(data, function (index, value) {
-                    $("#CustProv").append('<option value="' + value + '">' + value + '</option>');
-                });
-            },
-            error: function () {
-                alert("Failed to get states/provinces.");
-            }
-        });
-    }
-
-</script>
+</div>

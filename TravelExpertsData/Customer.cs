@@ -39,7 +39,7 @@ public partial class Customer
 
     [Required(ErrorMessage = "Postal Code is required.")]
     [RegularExpression(@"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$", ErrorMessage = "Invalid Postal Code format.")]
-    [StringLength(7)]
+    [StringLength(10, ErrorMessage = "The Postal Code must be between 5 and 10 characters.")]
     [Display(Name = "Postal Code")]
     public string CustPostal { get; set; } = null!;
 
@@ -49,7 +49,7 @@ public partial class Customer
     public string? CustCountry { get; set; }
 
     [Required(ErrorMessage = "Home Phone is required.")]
-    [Phone(ErrorMessage = "Invalid Home Phone format.")]
+    [Phone(ErrorMessage = "Phone number must be in the format XXX-XXX-XXXX.")]
     [StringLength(20)]
     [Display(Name = "Phone Number")]
     public string? CustHomePhone { get; set; }

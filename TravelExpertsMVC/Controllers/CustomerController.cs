@@ -150,72 +150,74 @@ namespace TravelExpertsMVC.Controllers
         {
             if (country == "Canada")
             {
-                var provinces = new List<string> {  
-                    "Alberta",
-                    "British Columbia",
-                    "Manitoba",
-                    "New Brunswick",
-                    "Newfoundland and Labrador",
-                    "Nova Scotia",
-                    "Ontario",
-                    "Prince Edward Island",
-                    "Quebec",
-                    "Saskatchewan" };
+                var provinces = new List<string> {
+            "AB", // Alberta
+            "BC", // British Columbia
+            "MB", // Manitoba
+            "NB", // New Brunswick
+            "NL", // Newfoundland and Labrador
+            "NS", // Nova Scotia
+            "ON", // Ontario
+            "PE", // Prince Edward Island
+            "QC", // Quebec
+            "SK"  // Saskatchewan
+        };
                 return Json(provinces);
             }
             else if (country == "USA")
             {
                 var states = new List<string> {
-                    "Alabama",
-                    "Alaska",
-                    "Arizona",
-                    "Arkansas",
-                    "California",
-                    "Colorado",
-                    "Connecticut",
-                    "Delaware",
-                    "Florida",
-                    "Georgia",
-                    "Hawaii",
-                    "Idaho",
-                    "Illinois",
-                    "Indiana",
-                    "Iowa",
-                    "Kansas",
-                    "Kentucky",
-                    "Louisiana",
-                    "Maine",
-                    "Maryland",
-                    "Massachusetts",
-                    "Michigan",
-                    "Minnesota",
-                    "Mississippi",
-                    "Missouri",
-                    "Montana",
-                    "Nebraska",
-                    "Nevada",
-                    "New Hampshire",
-                    "New Jersey",
-                    "New Mexico",
-                    "New York",
-                    "North Carolina",
-                    "North Dakota",
-                    "Ohio",
-                    "Oklahoma",
-                    "Oregon",
-                    "Pennsylvania",
-                    "Rhode Island",
-                    "South Carolina",
-                    "South Dakota",
-                    "Tennessee",
-                    "Texas",
-                    "Utah",
-                    "Vermont",
-                    "Virginia",
-                    "Washington",
-                    "West Virginia",
-                    "Wisconsin",
-                    "Wyoming" };
+            "AL", // Alabama
+            "AK", // Alaska
+            "AZ", // Arizona
+            "AR", // Arkansas
+            "CA", // California
+            "CO", // Colorado
+            "CT", // Connecticut
+            "DE", // Delaware
+            "FL", // Florida
+            "GA", // Georgia
+            "HI", // Hawaii
+            "ID", // Idaho
+            "IL", // Illinois
+            "IN", // Indiana
+            "IA", // Iowa
+            "KS", // Kansas
+            "KY", // Kentucky
+            "LA", // Louisiana
+            "ME", // Maine
+            "MD", // Maryland
+            "MA", // Massachusetts
+            "MI", // Michigan
+            "MN", // Minnesota
+            "MS", // Mississippi
+            "MO", // Missouri
+            "MT", // Montana
+            "NE", // Nebraska
+            "NV", // Nevada
+            "NH", // New Hampshire
+            "NJ", // New Jersey
+            "NM", // New Mexico
+            "NY", // New York
+            "NC", // North Carolina
+            "ND", // North Dakota
+            "OH", // Ohio
+            "OK", // Oklahoma
+            "OR", // Oregon
+            "PA", // Pennsylvania
+            "RI", // Rhode Island
+            "SC", // South Carolina
+            "SD", // South Dakota
+            "TN", // Tennessee
+            "TX", // Texas
+            "UT", // Utah
+            "VT", // Vermont
+            "VA", // Virginia
+            "WA", // Washington
+            "WV", // West Virginia
+            "WI", // Wisconsin
+            "WY"  // Wyoming
+        };
                 return Json(states);
             }
             else
@@ -223,10 +225,28 @@ namespace TravelExpertsMVC.Controllers
                 return BadRequest();
             }
         }
-        
 
-        // GET: /CutomerController/RegistrationSuccessful
-        public IActionResult RegistrationSuccessful()
+        [HttpGet]
+        public IActionResult ValidatePostalCode(string country, string postalCode)
+        {
+            bool isValidPostalCode = false;
+
+            if (country == "USA")
+            {
+                var regex = new System.Text.RegularExpressions.Regex(@"^(\d{5})(-\d{4})?$");
+                isValidPostalCode = regex.IsMatch(postalCode);
+            }
+            else if (country == "Canada")
+            {
+                var regex = new System.Text.RegularExpressions.Regex(@"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$");
+                isValidPostalCode = regex.IsMatch(postalCode);
+            }
+
+            return Json(new { isValid = isValidPostalCode });
+        }
+    
+    // GET: /CutomerController/RegistrationSuccessful
+    public IActionResult RegistrationSuccessful()
         {
             return View();
         }
