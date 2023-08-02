@@ -14,11 +14,21 @@ namespace TravelExpertsMVC.Controllers
             _dbContext = dbContext;
         }
 
-        //[Authorize]
+        [Authorize]
         public IActionResult BookingHistory()
         {
-            var Model = BookingManager.GetCustomerBookings(_dbContext, 133);
-            return View(Model);
+            try
+            {
+                int customerID = (int)HttpContext.Session.GetInt32("CurrentCustomer")!;
+                var Model = BookingManager.GetCustomerBookings(_dbContext, customerID);
+
+                return View(Model);
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "There was an error accessing your account information.";
+                return RedirectToAction("Logout", "Customer");
+            }
         }
     }
 }
