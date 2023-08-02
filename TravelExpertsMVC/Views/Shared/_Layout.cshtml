@@ -39,7 +39,16 @@
                         <div class="navbar-nav d-flex">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <a class="nav-link text-dark ml-2" asp-controller="Customer" asp-action="MyAccount"> My Account</a>
+                                <li class="nav-item dropdown ml-2">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        My Account
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark">
+                                        <li><a class="dropdown-item" asp-controller="Booking" asp-action="">My Bookings</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Customer" asp-action="MyAccount">Account Details</a></li>
+                                    </ul>
+                                </li>
+                                @*<a class="nav-link text-dark ml-2" asp-controller="Customer" asp-action="MyAccount"> My Account</a>*@
                                 <a class="nav-link text-dark ml-2" asp-controller="Customer" asp-action="Logout"
                                    asp-route-returnUrl="@Url.Action("Index", "Home")">Logout</a>
                             }
