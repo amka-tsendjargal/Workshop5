@@ -25,3 +25,7 @@ h1 {
     padding: 2rem 0;
     font-size: 3rem;
 }
+
+.money {
+    font-feature-settings: "tnum";
+}
