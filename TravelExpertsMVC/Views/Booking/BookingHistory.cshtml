@@ -6,6 +6,8 @@
 
 @section Scripts {
     <script>
+        const CHAR_OPEN = "\u2795";
+        const CHAR_CLOSE = "\u2796";
 
         $( document ).ready(() =>
         {
@@ -13,21 +15,21 @@
             {
                 let elem_selector = "#" + elem.id;
                 let detail_selector = "#" + elem.id.substring(0, elem.id.length - 4);
+                $(detail_selector).toggle();
                 $(elem_selector).click( () =>
                 {
-                    console.log(detail_selector);
-                    $(detail_selector).toggle();
-
-                    if ($(detail_selector).is(":visible"))
+                    $(detail_selector).animate({
+                        height: "toggle"
+                    }, 300, () => 
                     {
-                        // minus for hiding :visible
-                        $(elem_selector).text("\u2796");
-                    }
-                    else
-                    {
-                        // plus for showing :hidden
-                        $(elem_selector).text("\u2795");
-                    }
+                        if ($(elem_selector).text() == CHAR_CLOSE) {
+                            $(elem_selector).text(CHAR_OPEN);
+                        }
+                        else {
+                            console.log($(elem_selector).text())
+                            $(elem_selector).text(CHAR_CLOSE);
+                        }
+                    })
                 });
             });
         });
@@ -39,7 +41,7 @@
 @foreach(var Booking in Model)
 {
     <div class="shadow-sm rounded-2 py-2 px-4 my-4">
-        <div class="row justify-content-between mb-2">
+        <div class="row justify-content-between pb-2">
             <span class="col-10 text-start">
                 <strong>@Booking.BookingDate</strong>
                 &nbsp;&mdash;&nbsp;
@@ -48,10 +50,10 @@
             </span>
             <strong class="col-2 money text-end">@Booking.TotalPrice</strong>
         </div>
-        <div id="@($"b-{Booking.ID}-detail")" style="display: none;">
+        <div id="@($"b-{Booking.ID}-detail")">
         @foreach(var BookingItem in Booking.Items)
         {
-            <div class="row mt-1">
+            <div class="row pt-1 border-top">
                 <span class="col-4">
                     @BookingItem.Product
                 </span>
@@ -65,9 +67,20 @@
                     </span>
                 }
             </div>
+            <div class="row pb-1 border-bottom">
+                <span class="col-4">
+                @if (BookingItem.Class != null && BookingItem.Class != "Not Applicable")
+                {
+                    @BookingItem.Class
+                }
+                </span>
+                <span class="col-8 text-capitalize">
+                    @($"{BookingItem.Supplier.ToLower()}")
+                </span>
+            </div>
         }
         </div>
-        <div class="row justify-content-between mt-2">
+        <div class="row justify-content-between pt-2">
                 <span class="col-1 btn btn-close-white toggle-detail-button" id="@($"b-{Booking.ID}-detail-btn")">&#x2795;</span>
             <span class="col-11 text-end">@Booking.Identifier</span>
         </div>
