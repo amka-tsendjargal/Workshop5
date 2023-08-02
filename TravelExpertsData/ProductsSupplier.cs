@@ -30,4 +30,8 @@ public partial class ProductsSupplier
     [ForeignKey("ProductId")]
     [InverseProperty("ProductsSuppliers")]
     public virtual Product? Product { get; set; }
+
+    [ForeignKey("SupplierId")]
+    [InverseProperty("ProductsSuppliers")]
+    public virtual Supplier? Supplier { get; set; }
 }

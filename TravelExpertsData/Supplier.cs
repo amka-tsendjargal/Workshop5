@@ -14,4 +14,8 @@ public partial class Supplier
 
     [StringLength(255)]
     public string? SupName { get; set; }
+
+    [InverseProperty("Supplier")]
+    public virtual ICollection<ProductsSupplier> ProductsSuppliers { get; set; } = new List<ProductsSupplier>();
+
 }

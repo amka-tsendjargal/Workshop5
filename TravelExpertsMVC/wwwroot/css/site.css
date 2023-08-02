@@ -139,6 +139,10 @@ body {
     font-size: 3rem;
 }
 
+.money {
+    font-feature-settings: "tnum";
+}
+
 .features {
     background-color:aliceblue;
     background-size: cover;

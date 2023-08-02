@@ -1,0 +1,70 @@
+﻿@model IEnumerable<TravelExpertsMVC.Models.BookingViewModel>
+
+@{
+    ViewData["Title"] = "BookingHistory";
+}
+
+@section Scripts {
+    <script>
+
+        $( document ).ready(() =>
+        {
+            $(".toggle-detail-button").each((i, elem) =>
+            {
+                let elem_selector = "#" + elem.id;
+                let detail_selector = "#" + elem.id.substring(0, elem.id.length - 4);
+                $(elem_selector).click( () =>
+                {
+                    console.log(detail_selector);
+                    $(detail_selector).toggle();
+
+                    if ($(detail_selector).is(":visible"))
+                    {
+                        $(elem_selector).text("\u25B2");
+                    }
+                    else
+                    {
+                        $(elem_selector).text("\u25BC");
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<div class="col-md-6 mx-auto">
+<h2 class="my-4">Your Booking History</h2>
+@foreach(var Booking in Model)
+{
+    <div class="shadow-sm rounded-2 py-2 px-4">
+        <div class="row justify-content-between mb-2">
+            <span class="col text-start">
+                <strong>@Booking.BookingDate</strong>
+                &nbsp;&mdash;&nbsp;
+                @Booking.TripType
+            </span>
+            <strong class="col money text-end">@Booking.TotalPrice</strong>
+        </div>
+        <div id="@($"b-{Booking.ID}-detail")" style="display: none;">
+        @foreach(var BookingItem in Booking.Items)
+        {
+            <div class="row mt-1">
+                <span class="col-4">
+                    @BookingItem.Product
+                </span>
+                <span class="col-6">
+                    @BookingItem.Description
+                </span>
+                <span class="col-2 money text-end">
+                    @BookingItem.Price
+                </span>
+            </div>
+        }
+        </div>
+        <div class="row justify-content-between mt-2">
+            <span class="col-1 btn btn-close-white toggle-detail-button" id="@($"b-{Booking.ID}-detail-btn")">&#9660;</span>
+            <span class="col-11 text-end">@Booking.Identifier</span>
+        </div>
+    </div>
+}
+</div>

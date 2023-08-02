@@ -63,6 +63,12 @@
             </nav>
         </div>
     </header>
+    @if(TempData["ErrorMessage"] != null)
+    {
+        <div class="rounded text-center text-white bg-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
