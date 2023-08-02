@@ -4,15 +4,7 @@
     ViewData["Title"] = "MyAccount";
 }
 
-<script>
-    $(document).ready(function () {
-        $('#ConfirmPassword').val( $('#UserPwd').val() );
-        $('#UserPwd').on('input', function () {
-            var inputValue = $(this).val();
-            $('#ConfirmPassword').val(inputValue);
-        });
-    });
-</script>
+
 
 <style>
     .account-card {
@@ -100,15 +92,20 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="CustProv" class="control-label"></label>
-                            <input asp-for="CustProv" class="form-control" />
+                            <label class="form-label mt-4" asp-for="CustProv">Province:</label>
+                            <select asp-for="CustProv" class="form-control" id="CustProv" name="CustProv">
+                            </select>
                             <span asp-validation-for="CustProv" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="CustCountry" class="control-label"></label>
-                            <input asp-for="CustCountry" class="form-control" />
+                            <label class="form-label mt-4" asp-for="CustCountry">Country:</label>
+                            <select asp-for="CustCountry" class="form-control" id="CustCountry" name="CustCountry">
+                                <option value="">Select Country</option>
+                                <option value="Canada">Canada</option>
+                                <option value="USA">USA</option>
+                            </select>
                             <span asp-validation-for="CustCountry" class="text-danger"></span>
                         </div>
                     </div>
@@ -255,6 +252,18 @@
         <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>*@
+
+<script>
+    $(document).ready(function () {
+        $('#ConfirmPassword').val($('#UserPwd').val());
+        $('#UserPwd').on('input', function () {
+            var inputValue = $(this).val();
+            $('#ConfirmPassword').val(inputValue);
+        });
+        $('#CustProv').val('@ViewBag.UserProv');
+        $('#CustCountry').val('@ViewBag.UserCountry');
+    });
+</script>
 
 <div>
     <a asp-action="Index">Back to List</a>
