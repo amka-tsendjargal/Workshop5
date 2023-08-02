@@ -1,27 +1,36 @@
 ﻿@model IEnumerable<TravelExpertsMVC.Models.BookingViewModel>
 
 @{
-    ViewData["Title"] = "BookingHistory";
+    ViewData["Title"] = "Booking History";
 }
 
 @section Scripts {
     <script>
+        // OPEN is a "Heavy Plus" and CLOSE is a "Heavy Minus"
         const CHAR_OPEN = "\u2795";
         const CHAR_CLOSE = "\u2796";
 
+        // once document has loaded...
         $( document ).ready(() =>
         {
-            $(".toggle-detail-button").each((i, elem) =>
+            // for each "toggle-detail-button"
+            $(".toggle-detail-button").each((_, elem) =>
             {
+                // css selector for this element (#b-%id%-detail-btn)
                 let elem_selector = "#" + elem.id;
+                // css selector for the div this element controls (#b-%id%-detail)
                 let detail_selector = "#" + elem.id.substring(0, elem.id.length - 4);
+                // initially, we want the detail to be hidden
                 $(detail_selector).toggle();
                 $(elem_selector).click( () =>
                 {
+                    // when the button is clicked, show the details
+                    // (use an animation to have them slide up/down)
                     $(detail_selector).animate({
-                        height: "toggle"
-                    }, 300, () => 
+                        height: "toggle"        // "toggle" the height
+                    }, 300, () =>               // 300 ms
                     {
+                        // once the detail is fully hidden/shown toggle the symbol on the button
                         if ($(elem_selector).text() == CHAR_CLOSE) {
                             $(elem_selector).text(CHAR_OPEN);
                         }
@@ -38,31 +47,34 @@
 
 <div class="col-md-6 mx-auto">
 <h2 class="my-4">Your Booking History</h2>
+@* Create a display for each booking *@
 @foreach(var Booking in Model)
 {
     <div class="shadow-sm rounded-2 py-2 px-4 my-4">
         <div class="row justify-content-between pb-2">
             <span class="col-10 text-start">
-                <strong>@Booking.BookingDate</strong>
+                <strong>@Booking.BookingDate</strong>                       @* Booking Date                                                 *@
                 &nbsp;&mdash;&nbsp;
-                @(Booking.Packaged ? $"{Booking.PackageName} \u2014 " : "")
-                @Booking.TripType 
+                @(Booking.Packaged ? $"{Booking.PackageName} \u2014 " : "") @* If Booking is a package, show the package name               *@
+                @Booking.TripType                                           @* Business / Group / Leisure                                   *@
             </span>
-            <strong class="col-2 money text-end">@Booking.TotalPrice</strong>
+            <strong class="col-2 money text-end">
+                @Booking.TotalPrice                                         @* The total price of the booking                               *@
+            </strong>
         </div>
-        <div id="@($"b-{Booking.ID}-detail")">
-        @foreach(var BookingItem in Booking.Items)
+        <div id="@($"b-{Booking.ID}-detail")">                              @* The ID is used to toggle the details                         *@
+        @foreach(var BookingItem in Booking.Items)                          @* The Details of the Booking (individual products)             *@
         {
             <div class="row pt-1 border-top">
                 <span class="col-4">
-                    @BookingItem.Product
+                    @BookingItem.Product                                    @* The Product name                                             *@
                 </span>
                 <span class="col-6">
-                    @BookingItem.Description
+                    @BookingItem.Description                                @* The BookingItem description                                  *@
                 </span>
-                @if (Booking.Packaged == false)
-                {   
-                    <span class="col-2 money text-end">
+                @if (Booking.Packaged == false)                             @* If the Booking is not a package, show the price for each item*@
+                {                                                           @* otherwise, we don't since the price of the package may not be*@
+                    <span class="col-2 money text-end">                     @* equal to the sum of all items                                *@
                         @BookingItem.Price
                     </span>
                 }
@@ -71,18 +83,19 @@
                 <span class="col-4">
                 @if (BookingItem.Class != null && BookingItem.Class != "Not Applicable")
                 {
-                    @BookingItem.Class
+                    @BookingItem.Class                                     @* The class (if the product has a class)                        *@
                 }
                 </span>
                 <span class="col-8 text-capitalize">
-                    @($"{BookingItem.Supplier.ToLower()}")
+                    @($"{BookingItem.Supplier.ToLower()}")                 @* The supplier, rely on C# for lowercase and CSS for titlecase  *@
                 </span>
             </div>
         }
         </div>
-        <div class="row justify-content-between pt-2">
+        <div class="row justify-content-between pt-2">                     @* The button toggles whether the details are shown (onclick is  *@
+                                                                           @* added in JS based on class being toggle-detail-button)        *@
                 <span class="col-1 btn btn-close-white toggle-detail-button" id="@($"b-{Booking.ID}-detail-btn")">&#x2795;</span>
-            <span class="col-11 text-end">@Booking.Identifier</span>
+            <span class="col-11 text-end">@Booking.Identifier</span>       @* Identifier is actually Booking.BookingNo                      *@
         </div>
     </div>
 }
