@@ -27,6 +27,8 @@ namespace TravelExpertsMVC.Controllers
             ViewBag.UserFName = currentCustomer.CustFirstName;
             ViewBag.UserLName = currentCustomer.CustLastName;
             ViewBag.Phone = currentCustomer.CustHomePhone;
+            ViewBag.UserProv = currentCustomer.CustProv;
+            ViewBag.UserCountry = currentCustomer.CustCountry;
             return View(currentCustomer);
         }
 
