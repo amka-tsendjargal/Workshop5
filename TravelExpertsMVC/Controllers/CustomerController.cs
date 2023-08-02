@@ -148,10 +148,10 @@ namespace TravelExpertsMVC.Controllers
 
                         // Check if the passwords match
                         if (customer.UserPwd != confirmPassword)
-                    {
+                        {
                         ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
                         return View("Register", customer);
-                    }
+                        }
 
                     // Call the Add method from the CustomerViewModel class to add the customer to the database
                     CustomerViewModel.Add(_context, customer);
@@ -168,9 +168,9 @@ namespace TravelExpertsMVC.Controllers
             catch
             {
                 // Handle any exceptions that occurred during registration
-                TempData["Message"] = "Something went wrong while registering. Please try again.";
-                TempData["IsError"] = true;
-                return View("Register", customer);
+                    TempData["Message"] = "Something went wrong while registering. Please try again.";
+                    TempData["IsError"] = true;
+                    return View("Register", customer);
             }
         }        
        

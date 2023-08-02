@@ -17,7 +17,7 @@ public partial class Customer
     [Display(Name = "First Name")]
     public string CustFirstName { get; set; } = null!;
 
-    [Required(ErrorMessage = "First Name is required.")]
+    [Required(ErrorMessage = "Last Name is required.")]
     [StringLength(25)]
     [Display(Name = "Last Name")]
     public string CustLastName { get; set; } = null!;

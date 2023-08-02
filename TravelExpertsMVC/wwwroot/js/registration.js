@@ -76,7 +76,6 @@ $(document).ready(function () {
             stateProvinceList.append($("<option>").text(option).val(option));
         });
     }
-
    
     var defaultSelection = $("#CustCountry").val();
     populateStateProvinceList(defaultSelection);
