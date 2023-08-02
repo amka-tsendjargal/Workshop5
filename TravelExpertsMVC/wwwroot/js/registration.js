@@ -93,4 +93,29 @@ $(document).ready(function () {
         }
     })
 
+
+    function formatPhoneNumber(inputField) {
+        // Get the value of the input field that triggered the event
+        let phoneNumber = inputField.val().replace(/\D/g, ""); // Remove all non-digit characters
+
+        // Check if the input is not empty and has a valid length
+        if (phoneNumber.length > 0 && phoneNumber.length <= 10) {
+            phoneNumber = phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"); // Apply the format XXX-XXX-XXXX
+        }
+
+        // Set the formatted phone number back to the input field
+        inputField.val(phoneNumber);
+    }
+
+    $("#CustHomePhone").on("input", function () {
+        formatPhoneNumber($(this)); // Pass the input field as an argument to the formatPhoneNumber function
+    });
+
+    $("#CustBusPhone").on("input", function () {
+        formatPhoneNumber($(this)); // Pass the input field as an argument to the formatPhoneNumber function
+    });
+
+
+
+
 })
