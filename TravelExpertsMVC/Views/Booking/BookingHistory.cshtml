@@ -54,9 +54,8 @@
         <div class="row justify-content-between pb-2">
             <span class="col-10 text-start">
                 <strong>@Booking.BookingDate</strong>                       @* Booking Date                                                 *@
-                &nbsp;&mdash;&nbsp;
-                @(Booking.Packaged ? $"{Booking.PackageName} \u2014 " : "") @* If Booking is a package, show the package name               *@
-                @Booking.TripType                                           @* Business / Group / Leisure                                   *@
+                @(Booking.Packaged ? $" \u2014 {Booking.PackageName}" : "") @* If Booking is a package, show the package name               *@
+                @(Booking.Destination != null ? $" \u2014 {Booking.Destination}" : "")                                        @* Business / Group / Leisure                                   *@
             </span>
             <strong class="col-2 money text-end">
                 @Booking.TotalPrice                                         @* The total price of the booking                               *@
@@ -95,7 +94,7 @@
         <div class="row justify-content-between pt-2">                     @* The button toggles whether the details are shown (onclick is  *@
                                                                            @* added in JS based on class being toggle-detail-button)        *@
                 <span class="col-1 btn btn-close-white toggle-detail-button" id="@($"b-{Booking.ID}-detail-btn")">&#x2795;</span>
-            <span class="col-11 text-end">@Booking.Identifier</span>       @* Identifier is actually Booking.BookingNo                      *@
+            <span class="col-11 text-end">@Booking.TripType</span>         @* Identifier is actually Booking.BookingNo                      *@
         </div>
     </div>
 }
