@@ -1,8 +1,56 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Travel Experts";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Test Edit <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="jumbotron jumbotron-fluid jumbotron-custom" style="background-image:url('/images/luca-bravo-o453m2liufs-unsplash.jpg')">
+    
+<div class="container text-center">
+    <h1 class="display-4">Explore the World with Travel Experts</h1>
+    <p class="lead">Discover new adventures and create memories that last a lifetime.</p>
+        <a href="/Customer/Register" class="btn btn-primary btn-lg cta-button">Get Started</a>
 </div>
+    </div>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 feature">
+                <i class="fa fa-compass" aria-hidden="true"></i>
+                <h2 class="feature-title">Discover</h2>
+                <p class="feature-description">Explore diverse destinations and find your next dream vacation.</p>
+                <button class="feature-button">Explore Now</button>
+            </div>
+            <div class="col-md-4 feature">
+                <i class="fa fa-globe" aria-hidden="true"></i>
+                <h2 class="feature-title">Connect</h2>
+                <p class="feature-description">Connect with fellow travelers and share your experiences.</p>
+                <button class="feature-button">Get Connected</button>
+            </div>
+            <div class="col-md-4 feature">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+                <h2 class="feature-title">Experience</h2>
+                <p class="feature-description">Create unforgettable memories with our curated travel packages.</p>
+                <button class="feature-button">Book Now</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-us">
+    <div class="container">
+        <h2 class="text-center">About Us</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="~/images/aboutus.jpg" alt="About Us" class="img-fluid rounded-circle about-us-image" />                
+            </div>
+            <div class="col-md-6">
+                <div class="about-us-content">
+                    <p>Travel Experts is a leading travel agency with a passion for creating extraordinary travel experiences.</p>
+                    <p>Our dedicated team of travel experts ensures that every trip is tailored to meet our customers' preferences and needs.</p>
+                    <p>Discover the world with us and make unforgettable memories on your next vacation.</p>
+                    <a href="/Customer/Register" class="btn btn-primary btn-lg about-us-button">Join Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

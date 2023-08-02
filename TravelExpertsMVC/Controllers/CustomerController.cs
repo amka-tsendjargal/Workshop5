@@ -17,28 +17,38 @@ namespace TravelExpertsMVC.Controllers
             _context = context;
         }
         // GET: CustomerController
-        public ActionResult Register()
+        
+
+        public IActionResult MyAccount()
         {
-            return View(new Customer());
+            int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
+            Customer currentCustomer = CustomerViewModel.GetCustomerById(_context, sessionCustId);
+            return View(currentCustomer);
         }
 
         [HttpPost]
-        public IActionResult Register(Customer customer)
+        public IActionResult MyAccount(Customer updatedCustomer)
         {
-            if (!ModelState.IsValid)
+            int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
+            if (ModelState.IsValid)
             {
-                
-                return View(customer);
+                try
+                {
+                    CustomerViewModel.UpdateCustomer(_context, sessionCustId, updatedCustomer);
+                    TempData["Message"] = "Personal information successfully updated.";
+                    return View();
+                }
+                catch
+                {
+                    TempData["Message"] = "Something went wrong while updating information. Please try again.";
+                    TempData["IsError"] = true;
+                    return View(updatedCustomer);
+                }
             }
-
-          
-
-            return RedirectToAction("RegistrationSuccessful");
-        }
-
-        public IActionResult RegistrationSuccessful()
-        {
-            return View();
+            else
+            {
+                return View(updatedCustomer);
+            }
         }
 
         public IActionResult Login(string returnUrl)
@@ -53,7 +63,7 @@ namespace TravelExpertsMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginAsync(Customer customer)
         {
-            Customer cust = CustomerModel.Authenticate(_context, customer.UserId, customer.UserPwd);
+            Customer cust = CustomerViewModel.Authenticate(_context, customer.UserId, customer.UserPwd);
             if (cust == null) // if authentication fails
             {
                 return View(); // stay on login page
@@ -86,31 +96,60 @@ namespace TravelExpertsMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: CustomerController/Details/5
-        public ActionResult Details(int id)
+        //// GET: CustomerController/Details/5
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
+
+        // GET: CustomerController/Register
+        public ActionResult Register()
         {
-            return View();
+            return View("Register", new Customer());
         }
 
-        // GET: CustomerController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: CustomerController/Create
+        // POST: CustomerController/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Register(Customer customer, string confirmPassword)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    // Check if the passwords match
+                    if (customer.UserPwd != confirmPassword)
+                    {
+                        ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
+                        return View("Register", customer);
+                    }
+
+                    // Call the Add method from the CustomerViewModel class to add the customer to the database
+                    CustomerViewModel.Add(_context, customer);
+
+                    // Redirect to a success page after successful registration
+                    return RedirectToAction("RegistrationSuccessful");
+                }
+                else
+                {
+                    // Use the "Register" view to display validation errors and re-render the form
+                    return View("Register", customer);
+                }
             }
             catch
             {
-                return View();
+                // Handle any exceptions that occurred during registration
+                TempData["Message"] = "Something went wrong while registering. Please try again.";
+                TempData["IsError"] = true;
+                return View("Register", customer);
             }
+        }        
+       
+    
+    // GET: /CutomerController/RegistrationSuccessful
+    public IActionResult RegistrationSuccessful()
+        {
+            return View();
         }
 
         // GET: CustomerController/Edit/5
