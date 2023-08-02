@@ -72,6 +72,8 @@ namespace TravelExpertsMVC.Controllers
             Customer cust = CustomerViewModel.Authenticate(_context, customer.UserId, customer.UserPwd);
             if (cust == null) // if authentication fails
             {
+                TempData["IsError"] = true;
+                TempData["ErrorMessage"] = "Login failed. Please try again.";
                 return View(); // stay on login page
             }
             HttpContext.Session.SetInt32("CurrentCustomer", cust.CustomerId); // create session for logged in customer
