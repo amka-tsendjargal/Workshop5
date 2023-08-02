@@ -24,6 +24,9 @@ namespace TravelExpertsMVC.Controllers
         {
             int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
             Customer currentCustomer = CustomerViewModel.GetCustomerById(_context, sessionCustId);
+            ViewBag.UserFName = currentCustomer.CustFirstName;
+            ViewBag.UserLName = currentCustomer.CustLastName;
+            ViewBag.Phone = currentCustomer.CustHomePhone;
             return View(currentCustomer);
         }
 
@@ -37,7 +40,7 @@ namespace TravelExpertsMVC.Controllers
                 {
                     CustomerViewModel.UpdateCustomer(_context, sessionCustId, updatedCustomer);
                     TempData["Message"] = "Personal information successfully updated.";
-                    return View();
+                    return RedirectToAction("MyAccount", "Customer");
                 }
                 catch
                 {
