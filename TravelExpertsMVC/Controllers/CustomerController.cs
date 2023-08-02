@@ -119,31 +119,33 @@ namespace TravelExpertsMVC.Controllers
         {
             try
             {
+                // Check if the postal code format is valid based on the selected country
+                if (customer.CustCountry == "USA")
+                {
+                    var patternRegexU = @"^\d{5}(?:[-\s]\d{4})?$";
+                    Regex regexU = new Regex(patternRegexU);
+
+                    if (!regexU.IsMatch(customer.CustPostal))
+                    {
+                        ModelState.AddModelError("CustPostal", "Invalid postal code format for USA.");
+                        return View("Register", customer);
+                    }
+                }
+                else if (customer.CustCountry == "Canada")
+                {
+                    var patternRegexC = @"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$";
+                    Regex regexC = new Regex(patternRegexC);
+
+                    if (!regexC.IsMatch(customer.CustPostal))
+                    {
+                        ModelState.AddModelError("CustPostal", "Invalid postal code format for Canada.");
+                        return View("Register", customer);
+                    }
+                }
+
                 if (ModelState.IsValid)
                 {
-                     // Check if the postal code format is valid based on the selected country
-                        if (customer.CustCountry == "USA")
-                        {
-                            var patternRegexU = @"^\d{5}(?:[-\s]\d{4})?$";
-                            Regex regexU = new Regex(patternRegexU);
 
-                            if (!regexU.IsMatch(customer.CustPostal))
-                            {
-                                ModelState.AddModelError("CustPostal", "Invalid postal code format for USA.");
-                                return View("Register", customer);
-                            }
-                        }
-                        else if (customer.CustCountry == "Canada")
-                        {
-                            var patternRegexC = @"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$";
-                            Regex regexC = new Regex(patternRegexC);
-
-                            if (!regexC.IsMatch(customer.CustPostal))
-                            {
-                                ModelState.AddModelError("CustPostal", "Invalid postal code format for Canada.");
-                                return View("Register", customer);
-                            }
-                        }
                         // Check if the passwords match
                         if (customer.UserPwd != confirmPassword)
                     {
