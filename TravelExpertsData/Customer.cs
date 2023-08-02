@@ -57,13 +57,13 @@ public partial class Customer
     [RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Invalid Business Phone format. Correct format: XXX-XXX-XXXX.")]
     [StringLength(20)]
     [Display(Name = "Business Phone Number")]
-    public string CustBusPhone { get; set; } = null!;
+    public string? CustBusPhone { get; set; } = null!;
 
     
     [EmailAddress(ErrorMessage = "Invalid Email format.")]
     [StringLength(50)]
     [Display(Name = "Email")]
-    public string CustEmail { get; set; } = null!;
+    public string? CustEmail { get; set; } = null!;
 
     [Display(Name = "Agent ID")]
     public int? AgentId { get; set; }
@@ -82,7 +82,7 @@ public partial class Customer
 
     [Compare("UserPwd", ErrorMessage = "Passwords do not match.")]
     [NotMapped]
-    public string ConfirmPassword { get; set; }
+    public string? ConfirmPassword { get; set; }
 
     [ForeignKey("AgentId")]
     [InverseProperty("Customers")]
