@@ -13,6 +13,7 @@ namespace TravelExpertsMVC.Models
         public bool Packaged { get; set; }
 
         public string PackageName { get; set; }
+        public string? Destination { get; set; }
 
         public List<BookingViewItem> Items { get; set; }
 
@@ -42,12 +43,16 @@ namespace TravelExpertsMVC.Models
                 {
                     Price       = ItemPrice.ToString("C0"),
                     Description = detail.Description ?? "",
-                    Destination = detail.Destination ?? "",
                     Class       = detail.Class?.ClassName,
                     Product     = detail.ProductSupplier?.Product?.ProdName ?? "",
                     Supplier    = detail.ProductSupplier?.Supplier?.SupName ?? "",
                     ID          = detail.BookingDetailId.ToString(),
                 });
+
+                if (this.Destination == null && !string.IsNullOrWhiteSpace(detail.Destination))
+                {
+                    this.Destination = detail.Destination;
+                }
             }
 
             if (Booking.Package != null)
@@ -70,7 +75,6 @@ namespace TravelExpertsMVC.Models
     {
         public string Price { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public string Destination { get; set; } = null!;
         public string? Class { get; set; } = null!;
         public string Product { get; set; } = null!;
         public string Supplier { get; set; } = null!;
