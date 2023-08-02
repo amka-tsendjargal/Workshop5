@@ -20,11 +20,13 @@
 
                     if ($(detail_selector).is(":visible"))
                     {
-                        $(elem_selector).text("\u25B2");
+                        // minus for hiding :visible
+                        $(elem_selector).text("\u2796");
                     }
                     else
                     {
-                        $(elem_selector).text("\u25BC");
+                        // plus for showing :hidden
+                        $(elem_selector).text("\u2795");
                     }
                 });
             });
@@ -36,14 +38,15 @@
 <h2 class="my-4">Your Booking History</h2>
 @foreach(var Booking in Model)
 {
-    <div class="shadow-sm rounded-2 py-2 px-4">
+    <div class="shadow-sm rounded-2 py-2 px-4 my-4">
         <div class="row justify-content-between mb-2">
-            <span class="col text-start">
+            <span class="col-10 text-start">
                 <strong>@Booking.BookingDate</strong>
                 &nbsp;&mdash;&nbsp;
-                @Booking.TripType
+                @(Booking.Packaged ? $"{Booking.PackageName} \u2014 " : "")
+                @Booking.TripType 
             </span>
-            <strong class="col money text-end">@Booking.TotalPrice</strong>
+            <strong class="col-2 money text-end">@Booking.TotalPrice</strong>
         </div>
         <div id="@($"b-{Booking.ID}-detail")" style="display: none;">
         @foreach(var BookingItem in Booking.Items)
@@ -55,14 +58,17 @@
                 <span class="col-6">
                     @BookingItem.Description
                 </span>
-                <span class="col-2 money text-end">
-                    @BookingItem.Price
-                </span>
+                @if (Booking.Packaged == false)
+                {   
+                    <span class="col-2 money text-end">
+                        @BookingItem.Price
+                    </span>
+                }
             </div>
         }
         </div>
         <div class="row justify-content-between mt-2">
-            <span class="col-1 btn btn-close-white toggle-detail-button" id="@($"b-{Booking.ID}-detail-btn")">&#9660;</span>
+                <span class="col-1 btn btn-close-white toggle-detail-button" id="@($"b-{Booking.ID}-detail-btn")">&#x2795;</span>
             <span class="col-11 text-end">@Booking.Identifier</span>
         </div>
     </div>

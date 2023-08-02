@@ -10,6 +10,9 @@ namespace TravelExpertsMVC.Models
         public string TripType { get; set; }
         public string TotalPrice { get; set; }
         public string ID { get; set; }
+        public bool Packaged { get; set; }
+
+        public string PackageName { get; set; }
 
         public List<BookingViewItem> Items { get; set; }
 
@@ -24,6 +27,8 @@ namespace TravelExpertsMVC.Models
             this.Items = new();
 
             decimal TotalPrice  = 0;
+
+
 
             foreach (var detail in Booking.BookingDetails)
             {
@@ -43,6 +48,19 @@ namespace TravelExpertsMVC.Models
                     Supplier    = detail.ProductSupplier?.Supplier?.SupName ?? "",
                     ID          = detail.BookingDetailId.ToString(),
                 });
+            }
+
+            if (Booking.Package != null)
+            {
+                this.Packaged = true;
+                this.PackageName = Booking.Package.PkgName;
+                TotalPrice = Booking.Package.PkgBasePrice
+                           + (Booking.Package.PkgAgencyCommission ?? 0);
+            }
+            else
+            {
+                this.Packaged = false;
+                this.PackageName = "";
             }
 
             this.TotalPrice = TotalPrice.ToString("C0");
