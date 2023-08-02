@@ -11,6 +11,9 @@
             var inputValue = $(this).val();
             $('#ConfirmPassword').val(inputValue);
         });
+
+        $('#CustProv').val('@ViewBag.UserProv');
+        $('#CustCountry').val('@ViewBag.UserCountry');
     });
 </script>
 
@@ -76,7 +79,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label asp-for="UserPwd" class="control-label"></label>
-                            <input asp-for="UserPwd" type="password" id="UserPwd" class="form-control" />
+                            <input asp-for="UserPwd" id="UserPwd" class="form-control" />
                             <span asp-validation-for="UserPwd" class="text-danger"></span>
                         </div>
                     </div>
@@ -100,15 +103,20 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="CustProv" class="control-label"></label>
-                            <input asp-for="CustProv" class="form-control" />
+                            <label class="form-label mt-4" asp-for="CustProv">Province:</label>
+                            <select asp-for="CustProv" class="form-control" id="CustProv" name="CustProv" value="@Model.CustProv">
+                            </select>
                             <span asp-validation-for="CustProv" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label asp-for="CustCountry" class="control-label"></label>
-                            <input asp-for="CustCountry" class="form-control" />
+                            <label class="form-label mt-4" asp-for="CustCountry">Country:</label>
+                            <select asp-for="CustCountry" class="form-control" id="CustCountry" name="CustCountry" value="@Model.CustCountry">
+                                <option value="">Select Country</option>
+                                <option value="Canada">Canada</option>
+                                <option value="USA">USA</option>
+                            </select>
                             <span asp-validation-for="CustCountry" class="text-danger"></span>
                         </div>
                     </div>
@@ -162,7 +170,7 @@
                     </div>
                     <div class="form-group" style="display:none;">
                         <label asp-for="ConfirmPassword" class="control-label"></label>
-                        <input asp-for="ConfirmPassword" type="password" id="ConfirmPassword" class="form-control" />
+                        <input asp-for="ConfirmPassword" id="ConfirmPassword" class="form-control" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
                 </div>
@@ -255,11 +263,3 @@
         <input type="submit" value="Save" class="btn btn-primary" />
     </div>
 </form>*@
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
