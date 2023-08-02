@@ -14,13 +14,33 @@
     });
 </script>
 
+<style>
+    .account-card {
+        display: flex;
+        flex-direction: row;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .account-form {
+        flex: 1;
+        padding: 20px;
+    }
+
+    .row {
+        margin-bottom: 20px
+    }
+</style>
+
 <h1>Account Details</h1>
 <hr />
 
 <div class="container mt-4">
     <div class="account-card">
         <div class="card" style="width: 18rem;">
-            <img src="~\images\user-g7aa292277_640.png" class="card-img-top"/>
+            <img src="~/images/user-g7aa292277_640.png" class="card-img-top"/>
             <div class="card-body">
                 <p>@ViewBag.UserFName @ViewBag.UserLName</p>
                 <p>@ViewBag.Phone</p>
