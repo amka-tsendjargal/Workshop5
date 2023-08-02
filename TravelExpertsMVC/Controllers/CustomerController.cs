@@ -36,6 +36,29 @@ namespace TravelExpertsMVC.Controllers
         public IActionResult MyAccount(Customer updatedCustomer)
         {
             int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
+            Customer currentCustomer = CustomerViewModel.GetCustomerById(_context, sessionCustId);
+            if (updatedCustomer.CustCountry == "USA")
+            {
+                var patternRegexU = @"^\d{5}(?:[-\s]\d{4})?$";
+                Regex regexU = new Regex(patternRegexU);
+
+                if (!regexU.IsMatch(updatedCustomer.CustPostal))
+                {
+                    ModelState.AddModelError("CustPostal", "Invalid postal code format for USA.");
+                    return View("MyAccount", currentCustomer);
+                }
+            }
+            else if (updatedCustomer.CustCountry == "Canada")
+            {
+                var patternRegexC = @"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$";
+                Regex regexC = new Regex(patternRegexC);
+
+                if (!regexC.IsMatch(updatedCustomer.CustPostal))
+                {
+                    ModelState.AddModelError("CustPostal", "Invalid postal code format for Canada.");
+                    return View("MyAccount", currentCustomer);
+                }
+            }
             if (ModelState.IsValid)
             {
                 try
