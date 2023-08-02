@@ -85,8 +85,8 @@
                     @BookingItem.Class                                     @* The class (if the product has a class)                        *@
                 }
                 </span>
-                <span class="col-8 text-capitalize">
-                    @($"{BookingItem.Supplier.ToLower()}")                 @* The supplier, rely on C# for lowercase and CSS for titlecase  *@
+                <span class="col-8">
+                    @($"{BookingItem.Supplier}")                           @* The supplier, rely on C# for lowercase and CSS for titlecase  *@
                 </span>
             </div>
         }

@@ -36,11 +36,9 @@ namespace TravelExpertsMVC.Models
 
             decimal TotalPrice  = 0;
 
-
-
             foreach (var detail in Booking.BookingDetails)
             {
-                decimal ItemPrice = (detail.BasePrice ?? 0) // price of this item, includign all fees and commission
+                decimal ItemPrice = (detail.BasePrice ?? 0) // price of this item, including all fees and commission
                                   + (detail.Fee?.FeeAmt ?? 0)
                                   + (detail.AgencyCommission ?? 0);
 
@@ -53,7 +51,6 @@ namespace TravelExpertsMVC.Models
                     Class       = detail.Class?.ClassName,
                     Product     = detail.ProductSupplier?.Product?.ProdName ?? "",
                     Supplier    = detail.ProductSupplier?.Supplier?.SupName ?? "",
-                    ID          = detail.BookingDetailId.ToString(),
                 });
 
                 if (this.Destination == null && !string.IsNullOrWhiteSpace(detail.Destination))
@@ -66,8 +63,10 @@ namespace TravelExpertsMVC.Models
             {
                 this.Packaged = true;
                 this.PackageName = Booking.Package.PkgName;
-                TotalPrice = Booking.Package.PkgBasePrice
-                           + (Booking.Package.PkgAgencyCommission ?? 0);
+                TotalPrice += (Booking.Package.PkgBasePrice
+                            + (Booking.Package.PkgAgencyCommission ?? 0))
+                            * (decimal)Booking.TravelerCount!;
+
             }
             else
             {
@@ -85,6 +84,5 @@ namespace TravelExpertsMVC.Models
         public string? Class { get; set; } = null!;
         public string Product { get; set; } = null!;
         public string Supplier { get; set; } = null!;
-        public string ID { get; set; } = null!;
     }
 }

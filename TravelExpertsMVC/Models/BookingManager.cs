@@ -5,7 +5,7 @@ namespace TravelExpertsMVC.Models
 {
     public static class BookingManager
     {
-        public static List<BookingViewModel> GetCustomerBookings(TravelExpertsContext DB, int CustomerID)
+        public static List<Booking> GetCustomerBookings(TravelExpertsContext DB, int CustomerID)
             /*
              * This seems kindof janky, but it's literally the example Microsoft gives for nested
              * includes...
@@ -33,8 +33,16 @@ namespace TravelExpertsMVC.Models
             .ThenInclude(bd => bd.ProductSupplier)
             .ThenInclude(ps => ps.Supplier)
             .OrderByDescending(b => b.BookingDate)
-            // Convert to model more suitable for view
-            .Select(b => new BookingViewModel(b))
+            .ToList();
+
+        public static List<ProductsSupplier> GetPackageProductSuppliers(TravelExpertsContext DB, int PackageID)
+            => DB.PackagesProductsSuppliers
+            .Where(pps => pps.PackageId == PackageID)
+            .Include(pps => pps.ProductSupplier)
+            .ThenInclude(ps => ps.Supplier)
+            .Include(pps => pps.ProductSupplier)
+            .ThenInclude(ps => ps.Product)
+            .Select(pps => pps.ProductSupplier)
             .ToList();
     }
 }

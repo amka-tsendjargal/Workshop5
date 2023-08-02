@@ -37,9 +37,31 @@ namespace TravelExpertsMVC.Controllers
 
                 // Model is a BookingViewModel (only relevant data from booking, pre-
                 // formatted strings for displaying)
-                var Model = BookingManager.GetCustomerBookings(_dbContext, (int)customerID);
+                var Bookings = BookingManager.GetCustomerBookings(_dbContext, (int)customerID);
+                List<BookingViewModel> ViewModel = new();
 
-                return View(Model);
+                foreach (var Booking in Bookings)
+                {
+                    var BookingModel = new BookingViewModel(Booking);
+                    if (Booking.PackageId != null)
+                    {
+                        foreach (var ProductSupplier in BookingManager.GetPackageProductSuppliers(_dbContext, (int)Booking.PackageId))
+                        {
+                            BookingModel.Items.Add(new()
+                            {
+                                Price = "",
+                                Description = "INCLUDED IN PACKAGE",
+                                Class = "",
+                                Product = ProductSupplier.Product!.ProdName ?? "",
+                                Supplier = ProductSupplier.Supplier!.SupName ?? "",
+                            });
+                        }
+                    }
+
+                    ViewModel.Add(BookingModel);
+                }
+
+                return View(ViewModel);
             }
             catch // database error
             {
