@@ -3,7 +3,7 @@
     ViewData["Title"] = "Register";
 }
 
-<h1 class="text-center text-primary-emphasis">Customer Registration</h1>
+<h1 class="text-center text-primary-emphasis">Registration</h1>
 <div class="container mt-4">
     <div class="registration-card">
         <div class="registration-image">
@@ -14,6 +14,36 @@
         </div>    
         <div class="registration-form">
             <form method="post" asp-controller="Customer" asp-action="Register" class="container mt-4">
+                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="UserId">Username:</label>
+                            <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId" required>
+                            <span asp-validation-for="UserId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4" asp-for="UserPwd">Password:</label>
+                            <input type="text" class="form-control" id="UserPwd" name="UserPwd" value="@Model.UserPwd" required>
+                            <span asp-validation-for="UserPwd" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label mt-4">Confirm Password:</label>
+                            <input type="text" class="form-control" id="ConfirmPassword" name="ConfirmPassword" value="" required>
+                            <span asp-validation-for="UserPwd" class="text-danger"></span>
+                            <!-- Display the error message for password confirmation -->
+                            <div class="text-danger" id="passwordMismatchError"></div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -100,31 +130,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label mt-4" asp-for="UserId">Username:</label>
-                            <input type="text" class="form-control" id="UserId" name="UserId" value="@Model.UserId" required>
-                            <span asp-validation-for="UserId" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label mt-4" asp-for="UserPwd">Password:</label>
-                            <input type="text" class="form-control" id="UserPwd" name="UserPwd" value="@Model.UserPwd" required>
-                            <span asp-validation-for="UserPwd" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label mt-4">Confirm Password:</label>
-                            <input type="text" class="form-control" id="ConfirmPassword" name="ConfirmPassword" value="">
-                            <span asp-validation-for="UserPwd" class="text-danger"></span>
-                            <!-- Display the error message for password confirmation -->
-                            <div class="text-danger" id="passwordMismatchError"></div>
-                        </div>
-                    </div>
-                </div>       
+                 
                 <div class="text-center mt-4">
                     <button type="submit" class="btn btn-primary">Register</button>
                 </div>

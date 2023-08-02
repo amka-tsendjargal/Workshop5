@@ -37,9 +37,8 @@ public partial class Customer
     [Display(Name = "Province")]
     public string CustProv { get; set; } = null!;
 
-    [Required(ErrorMessage = "Postal Code is required.")]
-    [RegularExpression(@"^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$", ErrorMessage = "Invalid Postal Code format.")]
-    [StringLength(10, ErrorMessage = "The Postal Code must be between 5 and 10 characters.")]
+    [Required(ErrorMessage = "Postal Code is required.")]        
+    //[RegularExpression(@"^(\d{5}(?:[-\s]\d{4})?|[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d)$", ErrorMessage = "Invalid Postal Code format. Correct formats: 12345, 12345-6789, or ANA NAN.")]
     [Display(Name = "Postal Code")]
     public string CustPostal { get; set; } = null!;
 
@@ -49,13 +48,13 @@ public partial class Customer
     public string? CustCountry { get; set; }
 
     [Required(ErrorMessage = "Home Phone is required.")]
-    [Phone(ErrorMessage = "Phone number must be in the format XXX-XXX-XXXX.")]
+    [RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Invalid Home Phone format. Correct format: XXX-XXX-XXXX.")]
     [StringLength(20)]
     [Display(Name = "Phone Number")]
     public string? CustHomePhone { get; set; }
 
-    
-    [Phone(ErrorMessage = "Invalid Business Phone format.")]
+
+    [RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "Invalid Business Phone format. Correct format: XXX-XXX-XXXX.")]
     [StringLength(20)]
     [Display(Name = "Business Phone Number")]
     public string CustBusPhone { get; set; } = null!;
