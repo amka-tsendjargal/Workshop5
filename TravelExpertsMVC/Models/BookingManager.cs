@@ -14,6 +14,8 @@ namespace TravelExpertsMVC.Models
             => DB
             .Bookings
             .Where(b => b.CustomerId == CustomerID)
+            // Include Package
+            .Include(b => b.Package)
             // Include TripType
             .Include(b => b.TripType)
             // Include Class

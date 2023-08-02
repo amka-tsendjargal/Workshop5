@@ -40,12 +40,13 @@
 {
     <div class="shadow-sm rounded-2 py-2 px-4 my-4">
         <div class="row justify-content-between mb-2">
-            <span class="col text-start">
+            <span class="col-10 text-start">
                 <strong>@Booking.BookingDate</strong>
                 &nbsp;&mdash;&nbsp;
-                @Booking.TripType
+                @(Booking.Packaged ? $"{Booking.PackageName} \u2014 " : "")
+                @Booking.TripType 
             </span>
-            <strong class="col money text-end">@Booking.TotalPrice</strong>
+            <strong class="col-2 money text-end">@Booking.TotalPrice</strong>
         </div>
         <div id="@($"b-{Booking.ID}-detail")" style="display: none;">
         @foreach(var BookingItem in Booking.Items)
@@ -57,9 +58,12 @@
                 <span class="col-6">
                     @BookingItem.Description
                 </span>
-                <span class="col-2 money text-end">
-                    @BookingItem.Price
-                </span>
+                @if (Booking.Packaged == false)
+                {   
+                    <span class="col-2 money text-end">
+                        @BookingItem.Price
+                    </span>
+                }
             </div>
         }
         </div>
