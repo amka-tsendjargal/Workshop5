@@ -80,6 +80,10 @@ public partial class Customer
     [Display(Name = "Password")]
     public string? UserPwd { get; set; }
 
+    [Compare("UserPwd", ErrorMessage = "Passwords do not match.")]
+    [NotMapped]
+    public string ConfirmPassword { get; set; }
+
     [ForeignKey("AgentId")]
     [InverseProperty("Customers")]
     public virtual Agent? Agent { get; set; }
