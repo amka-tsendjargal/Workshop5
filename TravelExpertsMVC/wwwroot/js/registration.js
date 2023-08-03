@@ -115,7 +115,7 @@ $(document).ready(function () {
         formatPhoneNumber($(this)); // Pass the input field as an argument to the formatPhoneNumber function
     });
 
-
+    $('#successMessage').delay(4000).hide(1);
 
 
 })

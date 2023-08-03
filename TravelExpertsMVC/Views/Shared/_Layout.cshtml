@@ -69,6 +69,12 @@
             @TempData["ErrorMessage"]
         </div>
     }
+    @if(TempData["Message"] != null)
+    {
+        <div class="rounded text-center text-white bg-success my-2 col-md-6 mx-auto" id="successMessage">
+            @TempData["Message"]
+        </div>
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

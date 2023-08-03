@@ -45,8 +45,10 @@
         <div class="card" style="width: 18rem;">
             <img src="~/images/user-g7aa292277_640.png" class="card-img-top"/>
             <div class="card-body">
+                <p>Customer Number: @ViewBag.CustId</p>
                 <p>@ViewBag.UserFName @ViewBag.UserLName</p>
                 <p>@ViewBag.Phone</p>
+                <p>Agent Number: @ViewBag.AgentId</p>
             </div>
         </div>
         <div class="account-form">
@@ -155,14 +157,14 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label asp-for="CustomerId" class="control-label"></label>
                             <input asp-for="CustomerId" disabled class="form-control" />
                             <span asp-validation-for="CustomerId" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
+                        <div class="form-group" style="display:none;">
                             <label asp-for="AgentId" class="control-label"></label>
                             <input asp-for="AgentId" disabled class="form-control" />
                             <span asp-validation-for="AgentId" class="text-danger"></span>

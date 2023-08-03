@@ -38,8 +38,8 @@ namespace TravelExpertsMVC.Controllers
                 ViewBag.UserFName = currentCustomer.CustFirstName;
                 ViewBag.UserLName = currentCustomer.CustLastName;
                 ViewBag.Phone = currentCustomer.CustHomePhone;
-                ViewBag.UserProv = currentCustomer.CustProv;
-                ViewBag.UserCountry = currentCustomer.CustCountry;
+                ViewBag.CustId = currentCustomer.CustomerId;
+                ViewBag.AgentId = currentCustomer.AgentId;
                 return View(currentCustomer);
             }
             catch
@@ -69,8 +69,8 @@ namespace TravelExpertsMVC.Controllers
                 ViewBag.UserFName = currentCustomer.CustFirstName;
                 ViewBag.UserLName = currentCustomer.CustLastName;
                 ViewBag.Phone = currentCustomer.CustHomePhone;
-                ViewBag.UserProv = currentCustomer.CustProv;
-                ViewBag.UserCountry = currentCustomer.CustCountry;
+                ViewBag.CustId = currentCustomer.CustomerId;
+                ViewBag.AgentId = currentCustomer.AgentId;
             }
             catch
             {
@@ -137,7 +137,7 @@ namespace TravelExpertsMVC.Controllers
             if (cust == null) // if authentication fails
             {
                 TempData["IsError"] = true;
-                TempData["ErrorMessage"] = "Login failed. Please try again.";
+                TempData["ErrorMessage"] = "Invalid username or password.";
                 return View(); // stay on login page
             }
             HttpContext.Session.SetInt32("CurrentCustomer", cust.CustomerId); // create session for logged in customer
