@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -18,8 +19,8 @@ namespace TravelExpertsMVC.Controllers
             _context = context;
         }
         // GET: CustomerController
-        
 
+        [Authorize]
         public IActionResult MyAccount()
         {
             int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
@@ -31,7 +32,7 @@ namespace TravelExpertsMVC.Controllers
             ViewBag.UserCountry = currentCustomer.CustCountry;
             return View(currentCustomer);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult MyAccount(Customer updatedCustomer)
         {
