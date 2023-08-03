@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -18,8 +19,8 @@ namespace TravelExpertsMVC.Controllers
             _context = context;
         }
         // GET: CustomerController
-        
 
+        [Authorize]
         public IActionResult MyAccount()
         {
             try
@@ -47,7 +48,7 @@ namespace TravelExpertsMVC.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult MyAccount(Customer updatedCustomer)
         {
