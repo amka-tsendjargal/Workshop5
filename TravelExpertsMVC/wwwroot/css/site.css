@@ -143,6 +143,13 @@ body {
     font-feature-settings: "tnum";
 }
 
+.header-image {
+    padding: 0;
+    margin-right: 2.2em;
+    height: 1.2em;
+    transform: scale(2) translate(0.5em, -.1em);
+}
+
 .features {
     background-color:aliceblue;
     background-size: cover;
