@@ -22,21 +22,56 @@ namespace TravelExpertsMVC.Controllers
 
         public IActionResult MyAccount()
         {
-            int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
-            Customer currentCustomer = CustomerViewModel.GetCustomerById(_context, sessionCustId);
-            ViewBag.UserFName = currentCustomer.CustFirstName;
-            ViewBag.UserLName = currentCustomer.CustLastName;
-            ViewBag.Phone = currentCustomer.CustHomePhone;
-            ViewBag.UserProv = currentCustomer.CustProv;
-            ViewBag.UserCountry = currentCustomer.CustCountry;
-            return View(currentCustomer);
+            try
+            {
+                // Get customer ID from session
+                int? sessionCustId = HttpContext.Session.GetInt32("CurrentCustomer");
+
+                if (sessionCustId == null)
+                {
+                    TempData["ErrorMessage"] = "Your session has expired.";
+                    return RedirectToAction("Logout", "Customer");
+                }
+
+                Customer currentCustomer = CustomerViewModel.GetCustomerById(_context, (int)sessionCustId);
+                ViewBag.UserFName = currentCustomer.CustFirstName;
+                ViewBag.UserLName = currentCustomer.CustLastName;
+                ViewBag.Phone = currentCustomer.CustHomePhone;
+                ViewBag.UserProv = currentCustomer.CustProv;
+                ViewBag.UserCountry = currentCustomer.CustCountry;
+                return View(currentCustomer);
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "There was an error retrieving your account details.";
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost]
         public IActionResult MyAccount(Customer updatedCustomer)
         {
-            int sessionCustId = (int)HttpContext.Session.GetInt32("CurrentCustomer");
-            Customer currentCustomer = CustomerViewModel.GetCustomerById(_context, sessionCustId);
+            int? sessionCustId;
+            Customer currentCustomer;
+            try
+            {
+                // Get customer ID from session
+                sessionCustId = HttpContext.Session.GetInt32("CurrentCustomer");
+
+                if (sessionCustId == null)
+                {
+                    TempData["ErrorMessage"] = "Your session has expired.";
+                    return RedirectToAction("Logout", "Customer");
+                }
+
+                currentCustomer = CustomerViewModel.GetCustomerById(_context, (int)sessionCustId);
+            }
+            catch
+            {
+                TempData["ErrorMessage"] = "There was an error retrieving your account information.";
+                return RedirectToAction("Index", "Home");
+            }
+
             if (updatedCustomer.CustCountry == "USA")
             {
                 var patternRegexU = @"^\d{5}(?:[-\s]\d{4})?$";
@@ -63,7 +98,7 @@ namespace TravelExpertsMVC.Controllers
             {
                 try
                 {
-                    CustomerViewModel.UpdateCustomer(_context, sessionCustId, updatedCustomer);
+                    CustomerViewModel.UpdateCustomer(_context, (int)sessionCustId, updatedCustomer);
                     TempData["Message"] = "Personal information successfully updated.";
                     return RedirectToAction("MyAccount", "Customer");
                 }
@@ -92,7 +127,7 @@ namespace TravelExpertsMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> LoginAsync(Customer customer)
         {
-            Customer cust = CustomerViewModel.Authenticate(_context, customer.UserId, customer.UserPwd);
+            Customer? cust = CustomerViewModel.Authenticate(_context, customer.UserId ?? "", customer.UserPwd ?? "");
             if (cust == null) // if authentication fails
             {
                 TempData["IsError"] = true;
@@ -102,7 +137,7 @@ namespace TravelExpertsMVC.Controllers
             HttpContext.Session.SetInt32("CurrentCustomer", cust.CustomerId); // create session for logged in customer
             List<Claim> claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.Name, cust.UserId)
+                new Claim(ClaimTypes.Name, cust.UserId!)
             };
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,
                 CookieAuthenticationDefaults.AuthenticationScheme); // cookies authentication
@@ -110,13 +145,13 @@ namespace TravelExpertsMVC.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
-            if (TempData["ReturnUrl"] == null || String.IsNullOrEmpty(TempData["ReturnUrl"].ToString()))
+            if (TempData["ReturnUrl"] == null || String.IsNullOrEmpty(TempData["ReturnUrl"]?.ToString()))
             {
                 return RedirectToAction("Index", "Home");
             }
             else
             {
-                return Redirect(TempData["ReturnUrl"].ToString());
+                return Redirect(TempData["ReturnUrl"]?.ToString() ?? "/");
             }
         }
 
@@ -202,52 +237,10 @@ namespace TravelExpertsMVC.Controllers
         }        
        
     
-    // GET: /CutomerController/RegistrationSuccessful
-    public IActionResult RegistrationSuccessful()
+        // GET: /CutomerController/RegistrationSuccessful
+        public IActionResult RegistrationSuccessful()
         {
             return View();
-        }
-
-        // GET: CustomerController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: CustomerController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: CustomerController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: CustomerController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
     }
 }
