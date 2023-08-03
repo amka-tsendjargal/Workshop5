@@ -66,6 +66,11 @@ namespace TravelExpertsMVC.Controllers
                 }
 
                 currentCustomer = CustomerViewModel.GetCustomerById(_context, (int)sessionCustId);
+                ViewBag.UserFName = currentCustomer.CustFirstName;
+                ViewBag.UserLName = currentCustomer.CustLastName;
+                ViewBag.Phone = currentCustomer.CustHomePhone;
+                ViewBag.UserProv = currentCustomer.CustProv;
+                ViewBag.UserCountry = currentCustomer.CustCountry;
             }
             catch
             {
@@ -81,7 +86,7 @@ namespace TravelExpertsMVC.Controllers
                 if (!regexU.IsMatch(updatedCustomer.CustPostal))
                 {
                     ModelState.AddModelError("CustPostal", "Invalid postal code format for USA.");
-                    return View("MyAccount", currentCustomer);
+                    return View(updatedCustomer);
                 }
             }
             else if (updatedCustomer.CustCountry == "Canada")
@@ -92,7 +97,7 @@ namespace TravelExpertsMVC.Controllers
                 if (!regexC.IsMatch(updatedCustomer.CustPostal))
                 {
                     ModelState.AddModelError("CustPostal", "Invalid postal code format for Canada.");
-                    return View("MyAccount", currentCustomer);
+                    return View(updatedCustomer);
                 }
             }
             if (ModelState.IsValid)
