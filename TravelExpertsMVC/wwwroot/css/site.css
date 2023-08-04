@@ -143,6 +143,10 @@ body {
     font-feature-settings: "tnum";
 }
 
+.small-caps {
+    font-variant: small-caps;
+}
+
 .header-image {
     padding: 0;
     margin-right: 2.2em;

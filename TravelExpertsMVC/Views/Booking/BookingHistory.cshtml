@@ -54,7 +54,9 @@
         <div class="row justify-content-between pb-2">
             <span class="col-10 text-start">
                 <strong>@Booking.BookingDate</strong>                       @* Booking Date                                                 *@
+                <strong>
                 @(Booking.Packaged ? $" \u2014 {Booking.PackageName}" : "") @* If Booking is a package, show the package name               *@
+                </strong>
                 @(Booking.Destination != null ? $" \u2014 {Booking.Destination}" : "")                                        @* Business / Group / Leisure                                   *@
             </span>
             <strong class="col-2 money text-end">
@@ -78,7 +80,7 @@
                     </span>
                 }
             </div>
-            <div class="row pb-1 border-bottom">
+            <div class="row pb-1 border-bottom text-muted">
                 <span class="col-4">
                 @if (BookingItem.Class != null && BookingItem.Class != "Not Applicable")
                 {
