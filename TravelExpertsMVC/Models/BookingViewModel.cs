@@ -43,7 +43,8 @@ namespace TravelExpertsMVC.Models
                                   + (detail.AgencyCommission ?? 0);
 
                 TotalPrice += ItemPrice;                    // add price to total
-
+                // Create a new BookingViewItem object and add it to the Items list of the current BookingViewModel.
+                // Populate the properties of the BookingViewItem based on the details.
                 this.Items.Add(new()
                 {
                     Price       = ItemPrice.ToString("C0"),
@@ -52,16 +53,18 @@ namespace TravelExpertsMVC.Models
                     Product     = detail.ProductSupplier?.Product?.ProdName ?? "",
                     Supplier    = detail.ProductSupplier?.Supplier?.SupName ?? "",
                 });
-
+                // Check if the current BookingViewModel's Destination is null and the detail's Destination is not null or empty.
+                // If true, set the Destination property of BookingViewModel to the detail's Destination value.
                 if (this.Destination == null && !string.IsNullOrWhiteSpace(detail.Destination))
                 {
                     this.Destination = detail.Destination;
                 }
             }
-
+            // Check if the associated Booking has a Package.
             if (Booking.Package != null)
             {
                 this.Packaged = true;
+                // Set the PackageName property of the BookingViewModel to the name of the associated Package.
                 this.PackageName = Booking.Package.PkgName;
                 TotalPrice += (Booking.Package.PkgBasePrice
                             + (Booking.Package.PkgAgencyCommission ?? 0))
@@ -70,6 +73,7 @@ namespace TravelExpertsMVC.Models
             }
             else
             {
+                // If there is no associated Package, set the Packaged property to false and the PackageName to an empty string.
                 this.Packaged = false;
                 this.PackageName = "";
             }

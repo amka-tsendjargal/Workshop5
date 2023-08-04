@@ -26,7 +26,9 @@ namespace TravelExpertsMVC.Models
 
         public static void UpdateCustomer(TravelExpertsContext db, int id, Customer newCustomer)
         {
+            // Find the existing Customer record in the database based on the provided id.
             Customer customer = db.Customers.Find(id);
+            // Check if the customer with the provided id exists in the database.
             if (customer != null)
             {
                 customer.CustFirstName = newCustomer.CustFirstName;

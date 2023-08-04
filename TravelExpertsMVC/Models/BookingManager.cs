@@ -35,6 +35,9 @@ namespace TravelExpertsMVC.Models
             .OrderByDescending(b => b.BookingDate)
             .ToList();
 
+        // Filter the records based on the provided PackageID.
+        // Include related ProductSupplier information and their associated Supplier and Product details.
+        // Select the ProductSupplier objects and convert the result to a List.
         public static List<ProductsSupplier> GetPackageProductSuppliers(TravelExpertsContext DB, int PackageID)
             => DB.PackagesProductsSuppliers
             .Where(pps => pps.PackageId == PackageID)
